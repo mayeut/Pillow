@@ -62,6 +62,7 @@ cat<<EOF >"${TOOLCHAIN_PATH}/bin/${AUDITWHEEL_PLAT}.cfg"
 	${M_ARCH:-}
 	--gcc-toolchain=${DEVTOOLSET_ROOTPATH:-}/usr
 	--gcc-triple=${GCC_TRIPLE}
+	-L/usr/local/lib
 EOF
 
 cat<<EOF >"${TOOLCHAIN_PATH}/bin/clang.cfg"

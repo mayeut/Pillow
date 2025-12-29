@@ -94,6 +94,21 @@ jobs:
             os: ubuntu-24.04-arm
             cibw_arch: aarch64
             build: "*manylinux*"
+          - name: "manylinux_2_28 ppc64le"
+            platform: linux
+            os: ubuntu-24.04
+            cibw_arch: ppc64le
+            build: "*manylinux*"
+          - name: "manylinux_2_39 riscv64"
+            platform: linux
+            os: ubuntu-24.04
+            cibw_arch: riscv64
+            build: "*manylinux*"
+          - name: "manylinux_2_28 s390x"
+            platform: linux
+            os: ubuntu-24.04
+            cibw_arch: s390x
+            build: "*manylinux*"
           - name: "iOS arm64 device"
             platform: ios
             os: macos-latest
@@ -115,6 +130,10 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
+
+      - name: Set up QEMU
+        if: "(matrix.cibw_arch == 'ppc64le') || (matrix.cibw_arch == 'riscv64') || (matrix.cibw_arch == 's390x')"
+        uses: docker/setup-qemu-action@v3
 
       - name: Install cibuildwheel
         run: |

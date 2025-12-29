@@ -255,6 +255,10 @@ function build_zstd {
 }
 
 function build {
+    if [ -d /opt/clang/bin ]; then
+        export PATH="/opt/clang/bin:$PATH"
+        ln -s llvm-ar /opt/clang/bin/llvm-ranlib
+    fi
     build_xz
     if [ -z "$IS_ALPINE" ] && [ -z "$SANITIZER" ] && [ -z "$IS_MACOS" ]; then
         yum remove -y zlib-devel

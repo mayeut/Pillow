@@ -112,14 +112,6 @@ test-requires = [
 ]
 xbuild-tools = [  ]
 
-[[tool.cibuildwheel.overrides]]
-select = "*-*linux*"
-before-all = ".github/workflows/install-static-clang.sh && .github/workflows/wheels-dependencies.sh"
-inherit.environment = "append"
-environment = { CC = "/opt/clang/bin/clang", CXX = "/opt/clang/bin/clang++", STRIP_FLAGS = "-Wno-unused-command-line-argument -Wl,-strip-all", LDFLAGS = "-fuse-ld=lld" }
-inherit.environment-pass = "append"
-environment-pass = ["RUNNER_ARCH"]
-
 [tool.cibuildwheel.macos]
 # Disable platform guessing on macOS to avoid picking up Homebrew etc.
 config-settings = "raqm=enable raqm=vendor fribidi=vendor imagequant=disable platform-guessing=disable"
@@ -145,6 +137,19 @@ test-command = [
 ]
 
 # There's no numpy wheel for iOS (yet...)
+test-requires = [  ]
+
+[[tool.cibuildwheel.overrides]]
+select = "*-*linux*"
+before-all = ".github/workflows/install-static-clang.sh && .github/workflows/wheels-dependencies.sh"
+inherit.environment = "append"
+environment = { CC = "/opt/clang/bin/clang", CXX = "/opt/clang/bin/clang++", STRIP_FLAGS = "-Wno-unused-command-line-argument -Wl,-strip-all", LDFLAGS = "-fuse-ld=lld" }
+inherit.environment-pass = "append"
+environment-pass = [ "RUNNER_ARCH" ]
+
+[[tool.cibuildwheel.overrides]]
+select = "*-*linux_{ppc64le,s390x,riscv64}"
+# There's no numpy wheel for ppc64le, riscv64 & s390x (yet...)
 test-requires = [  ]
 
 [[tool.cibuildwheel.overrides]]
